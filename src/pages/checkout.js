@@ -1,15 +1,36 @@
 import Header from "./../components/Header";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import { selectItems, selectTotal } from "../slices/basketSlice";
+import { selectItems } from "../slices/basketSlice";
 import CheckoutProduct from "../components/CheckoutProduct";
 import { formatPrice } from "../utils/helper";
 import { useSession } from "next-auth/client";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+
+const stripePromise = loadStripe(process.env.stripe_public_key);
 
 function Checkout() {
   const items = useSelector(selectItems);
   const [session] = useSession();
   const cartTotal = items.reduce((total, item) => total + item.price, 0);
+
+  const createCheckoutSession = async () => {
+    const stripe = await stripePromise;
+    const checkoutSession = await axios.post("/api/create-checkout-session", {
+      items,
+      email: session.user.email,
+    });
+
+    // redirect user/customer to Stripe Checkout
+    const result = await stripe.redirectToCheckout({
+      sessionId: checkoutSession.data.id,
+    });
+
+    if (result.error) {
+      alert(result.error.message);
+    }
+  };
 
   return (
     <div className="bg-gray-100">
@@ -44,6 +65,8 @@ function Checkout() {
               <span className="font-bold">{formatPrice(cartTotal)}</span>
             </h2>
             <button
+              type="submit"
+              onClick={createCheckoutSession}
               disabled={!session}
               className={`button mt-2 font-bold ${
                 !session &&
