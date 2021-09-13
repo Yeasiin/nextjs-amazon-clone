@@ -6,9 +6,7 @@ import db from "./../../firebase";
 import Order from "../components/Order";
 
 function orders({ orders }) {
-  const [session] = useSession();
-
-  console.log(orders);
+  const [session] = useSession(); 
 
   return (
     <div>
