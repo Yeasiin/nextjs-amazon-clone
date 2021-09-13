@@ -1,4 +1,5 @@
 import { getSession, useSession } from "next-auth/client";
+import Head from "next/head";
 import moment from "moment";
 import Header from "../components/Header";
 import db from "./../../firebase";
@@ -11,6 +12,9 @@ function orders({ orders }) {
 
   return (
     <div>
+      <Head>
+        <title>Orders</title>
+      </Head>
       <Header />
       <main className="max-w-screen-lg mx-auto p-10">
         <h1 className="text-3xl border-b mb-2 pb-1 border-yellow-400">
