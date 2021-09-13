@@ -1,3 +1,5 @@
+import firebase from "firebase";
+
 const firebaseConfig = {
   apiKey: "AIzaSyD1DRwdpsaHltsd2PWSIdibPMn4M1LyLFE",
   authDomain: "amzon-cl0ne.firebaseapp.com",
@@ -6,3 +8,11 @@ const firebaseConfig = {
   messagingSenderId: "76034931370",
   appId: "1:76034931370:web:7f147e54728451dd32aed3",
 };
+
+const app = !firebase.apps.length
+  ? firebase.initializeApp(firebaseConfig)
+  : firebase.app();
+
+const db = app.firestore();
+
+export default db;
