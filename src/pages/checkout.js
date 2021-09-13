@@ -26,7 +26,6 @@ function Checkout() {
     const result = await stripe.redirectToCheckout({
       sessionId: checkoutSession.data.id,
     });
-
     if (result.error) {
       alert(result.error.message);
     }
@@ -52,7 +51,10 @@ function Checkout() {
                 : "Your Shopping Basket"}
             </h1>
             {items.map((item) => (
-              <CheckoutProduct key={item.id} {...item} />
+              <CheckoutProduct
+                key={item.id + Math.floor(Math.random() * 100)}
+                {...item}
+              />
             ))}
           </div>
         </div>
@@ -65,7 +67,6 @@ function Checkout() {
               <span className="font-bold">{formatPrice(cartTotal)}</span>
             </h2>
             <button
-              type="submit"
               onClick={createCheckoutSession}
               disabled={!session}
               className={`button mt-2 font-bold ${

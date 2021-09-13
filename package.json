@@ -15,6 +15,7 @@
     "axios": "^0.21.4",
     "firebase": "^8.10.0",
     "firebase-admin": "^9.8.0",
+    "micro": "^9.3.4",
     "next": "latest",
     "next-auth": "^3.29.0",
     "react": "17.0.1",
